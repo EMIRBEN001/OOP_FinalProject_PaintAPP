@@ -64,7 +64,7 @@ public class PaintController {
     private abstract class Brush { // create an abstract brush class so that i don't need to write the attributes for the other brush types
         protected double size;
         protected Color color;
-        protected LinkedList<Stroke> strokes; // i used a linked list for the strokes
+        protected LinkedList<Stroke> strokes;
 
         public Brush(double size, Color color) {
             this.size = size;
@@ -77,11 +77,6 @@ public class PaintController {
         public abstract void draw(double x, double y);
 
         public abstract void stopDrawing();
-
-        public LinkedList<Stroke> getStrokes()
-        {
-            return strokes;
-        }
     }
     private class Stroke {
         private LinkedList<Point> points;
@@ -94,11 +89,6 @@ public class PaintController {
 
             return points;
         }
-
-        public void addPoint(double x, double y) {
-
-            points.add(new Point(x, y));
-        }
     }
     private class Point {
         private double x;
@@ -107,28 +97,6 @@ public class PaintController {
         public Point(double x, double y) {
             this.x = x;
             this.y = y;
-        }
-
-        public double getX() {
-
-            return x;
-        }
-
-        public double getY() {
-
-            return y;
-        }
-
-        public double distanceTo(Point other) {
-            double deltaX = other.getX() - x;
-            double deltaY = other.getY() - y;
-            return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        }
-
-        public double angleTo(Point other) {
-            double deltaX = other.getX() - x;
-            double deltaY = other.getY() - y;
-            return Math.atan2(deltaY, deltaX);
         }
     }
 
@@ -147,6 +115,7 @@ public class PaintController {
         @Override
         public void draw(double x, double y)
         {
+            
             graphicsContext.fillOval(x, y, size, size);
         }
 
@@ -171,6 +140,7 @@ public class PaintController {
         @Override
         public void draw(double x, double y)
         {
+            
             graphicsContext.fillRect(x, y, size, size);
         }
 
@@ -227,6 +197,7 @@ public class PaintController {
         private double radius;
 
         public CircleBrush(double size, Color color) {
+            
             super(size, color);
         }
 
@@ -248,6 +219,7 @@ public class PaintController {
 
         @Override
         public void stopDrawing() {
+            
             drawCircle();
         }
 
@@ -266,6 +238,7 @@ public class PaintController {
         private double endY;
 
         public RectangularBrush(double size, Color color) {
+            
             super(size, color);
         }
 
@@ -286,6 +259,7 @@ public class PaintController {
 
         @Override
         public void stopDrawing() {
+            
             drawRectangle();
         }
         private void drawRectangle() {
@@ -399,6 +373,8 @@ public class PaintController {
         }
 
     }
+    
+    // the methods below with the names of "handle" is used to handle all the action events that existed in this code 
 
     @FXML
     private void handleColorPickerAction(ActionEvent event) {
@@ -428,7 +404,7 @@ public class PaintController {
         lastY = currentY;
     }
 
-    // this is the code for making the lines more smoother, before this code was implemented the lines wouldn't keep up with the speed of mah hand
+    // this is the code for making the lines smoother, before this code was implemented the lines wouldn't keep up with the speed of mah hand
     private void drawLine(double startX, double startY, double endX, double endY) {
         double deltaX = endX - startX;
         double deltaY = endY - startY;
